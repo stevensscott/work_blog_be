@@ -13,11 +13,11 @@ class ArticlesController < ApplicationController
   end
   # This won't work until I create a seperate show render page I think since I only have the content page it shows the index as well as the show
   def show
-     @article = Article.find(params[:id])
-    # respond_to do |format|
-    #   format.html { @article }
-    #   format.json { render json: @article.as_json }
-    # end
+    @article = Article.find(params[:id])
+    respond_to do |format|
+      format.html { @article }
+      format.json { render json: @article.as_json }
+    end
   end
 
   def new
@@ -40,7 +40,7 @@ class ArticlesController < ApplicationController
         
         format.json do  
           p "In format json"       
-          render json: @article.as_json
+          render json: @article.as_json(include:[:comments]) 
         end
       end
     else        
@@ -58,8 +58,17 @@ class ArticlesController < ApplicationController
 
     if @article.update(article_params)
       p "article params #{article_params.to_json}"
-      render json: @article.as_json
-      # redirect_to @article
+      respond_to do |format|
+      format.html do
+        p "In format html"
+        redirect_to @article
+      end
+      
+      format.json do  
+        p "In format json"       
+        render json: @article.as_json(include:[:comments]) 
+      end
+    end
     else
       render :edit, status: :unprocessable_entity
     end
