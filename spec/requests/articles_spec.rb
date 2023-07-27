@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+# index test
 RSpec.describe "Articles", type: :request do
   describe "GET /articles" do
     it "returns an array of articles" do
@@ -9,17 +9,21 @@ RSpec.describe "Articles", type: :request do
   end
 end
 
+#create
+describe "POST /articles" do
+  it "creates an article" do
+    post "/articles.json", params:{ 
+      "article": {
+      "title": "test title",
+      "body": "This is a test article",
+      "status": "public"
+      }
+    }
+    article = JSON.parse(response.body)
 
-# require "rails_helper"
+    expect(response).to have_http_status(200)
+    expect(article["title"]).to eq("test title")
 
-# RSpec.describe "Recipes", type: :request do
-#   describe "GET /recipes" do
-#     it "returns an array of recipes" do
-#       get "/recipes.json"
-#       recipes = JSON.parse(response.body)
-
-#       expect(response).to have_http_status(200)
-#       expect(recipes.length).to eq(7)
-#     end
-#   end
-# end
+   
+  end
+end

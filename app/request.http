@@ -1,0 +1,16 @@
+### Get all articles
+
+get http://localhost:3000/articles.json
+Content-Type: application/json
+
+### Create Article
+post http://localhost:3000/articles.json
+Content-Type: application/json
+
+{ 
+    "article": {
+    "title": "test title via request file",
+    "body": "This is a test article",
+    "status": "public"
+    }
+  }
